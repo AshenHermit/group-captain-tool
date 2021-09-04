@@ -18,7 +18,10 @@ export class Client{
         var password = Cookies.get(config.passwordCookieName)
         if(!username || !password) return false;
 
-        this.api.logIn(username, password, callback)
+        this.api.logIn(username, password, success=>{
+            if(success) this.loggedIn = true
+            callback(success)
+        })
         return true
     }
     saveCookies(username, password){
@@ -28,9 +31,16 @@ export class Client{
     logInWithFields(username, password, callback){
         this.api.logIn(username, password, (success)=>{
             if(success){
+                this.loggedIn = true
                 this.saveCookies(username, password)
             }
             callback(success)
         })
+    }
+    logOut(callback=null){
+        Cookies.remove(config.usernameCookieName)
+        Cookies.remove(config.passwordCookieName)
+        this.loggedIn = false
+        if(callback) callback()
     }
 }

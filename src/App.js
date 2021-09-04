@@ -26,7 +26,7 @@ export default class App extends React.Component{
   static ScreenRoutes = ["/waiting", "/login", "/home", "/people-checker", "/people-editor", "/calendar"]
   constructor(props){
     super(props)
-    this.currentScreen = App.ScreenEnum.Waiting
+    this.currentScreen = App.ScreenEnum.LogIn
     this.client = new Client()
     this.dayEditorState = new DayEditorState(this.client.api)
     this.groupEditorState = new GroupEditorState(this.client.api)
@@ -71,8 +71,6 @@ export default class App extends React.Component{
         }
       }
     })
-    if(canAutoLogIn) this.goToScreen(App.ScreenEnum.Waiting)
-    else this.goToScreen(App.ScreenEnum.LogIn)
   }
   tryToLogInInBackground(){
     var canAutoLogIn = this.client.tryLoginWithCookies(success=>{
@@ -80,11 +78,15 @@ export default class App extends React.Component{
     })
   }
   tryToLogin(){
-    if(this.currentRoute == "/"){
+    if(this.currentScreen==App.ScreenEnum.LogIn){
       this.tryToLogInWithRedirect()
     }else{
       this.tryToLogInInBackground()
     }
+  }
+  logOut(){
+    this.client.logOut()
+    this.goToScreen(App.ScreenEnum.LogIn)
   }
   componentDidMount(){
     this.tryToLogin()

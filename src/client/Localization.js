@@ -5,6 +5,7 @@ var translationCSV = `message, "ru", "en"
 continue_without_authorization, "Продолжить без авторизации", ""
 
 change_theme, "Сменить палитру", ""
+log_out, "Выйти", ""
 settings, "Настройки", ""
 home.title, "Group Captain's Tool", "Group Captain's Tool"
 home.head_label, "Инструмент для главарей университетских банд.", ""

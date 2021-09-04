@@ -179,6 +179,11 @@ export class HomepageScreen extends React.Component{
                         <div className="title">{translate("settings")}</div>
                         <div className="space"></div>
                         <div onClick={(()=>{this.props.app.toggleTheme()}).bind(this)} className="button">{translate("change_theme")}</div>
+
+                        { this.props.app.client.loggedIn ? 
+                            <div onClick={(()=>{this.props.app.logOut()}).bind(this)} className="button error">{translate("log_out")}</div>
+                            : ""
+                        }
                     </div>
                 </div>
             }/>
