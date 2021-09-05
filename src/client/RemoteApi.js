@@ -1,5 +1,5 @@
 import { config } from "./Config"
-import { DayData, GroupData as GroupData, Person } from "./GroupLibrary"
+import { DayData, DocumentData, GroupData as GroupData, Person } from "./GroupLibrary"
 
 function createDefaultGroup(){ 
     var group = new GroupData()
@@ -15,7 +15,8 @@ function createDefaultGroup(){
 function createDefaultDay(){
     var day = new DayData()
     if(config.createTestData){
-        
+        day.addDocument(new DocumentData("title", "desc", "some link"))
+        day.addDocument(new DocumentData("asd", "wa asd aadad wag", "aw asd aw aga"))
     }
     return day
 }

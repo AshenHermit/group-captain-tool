@@ -38,7 +38,11 @@ editing, "Редактирование", ""
 delete, "удалить", ""
 save, "сохранить", ""
 add_person, "Добавить", ""
-save_error, "Не получается сохранить данные группы, похоже у вас не достаточно для этого прав.", ""
+add, "Добавить", ""
+save_error, "Не получилось сохранить данные, похоже у вас не достаточно для этого прав.", ""
+
+show_documents, "Прикрепленные документы", ""
+edit, "edit", "edit"
 
 month.0.genitive,"января",""
 month.1.genitive,"февраля",""
@@ -87,6 +91,11 @@ class Localization{
         }
         return message
     }
+    translateDay(date, includeYear=true){
+        var text = date.getDate().toString() + " " + translate("month."+date.getMonth()+".genitive")
+        if(includeYear) text += " " + date.getFullYear().toString()
+        return text
+    }
     setLocale(locale){
         this.currentLocale = locale
     }
@@ -95,6 +104,7 @@ class Localization{
 var localization = new Localization()
 localization.loadTranslationFromCSV(translationCSV)
 window.localization = localization
+export {localization}
 export function translate(message){
     return localization.translate(message)
 }

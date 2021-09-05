@@ -137,59 +137,7 @@ export class LogInScreen extends React.Component{
     }
 }
 
-export class HomepageScreen extends React.Component{
-    render(){
-        return (
-            <ScreenScaffold 
-            headerItems={
-                [
-                    <div className="column">
-                        <div className="title">{translate("home.title")}</div>
-                        <div className="space"></div>
-                        <div className="label">{translate("home.head_label")}</div>
-                    </div>
-                ]
-            }
-            body={
-                <div>
-                    <div className="body-section">
-                        <div className="title">{translate("home.section.0.title")}</div>
-                        <div className="space"></div>
-                        <div className="label">{translate("home.section.0.label")}</div>
-                        <div className="space"></div>
 
-                        <CalendarComponent app={this.props.app}/>
-
-                        <ScreenChangeButton text={translate("check_people_button")} app={this.props.app} screen={App.ScreenEnum.PeopleChecker} className=""/>
-                    </div>
-
-                    <div className="body-section">
-                        <div className="title">{translate("home.section.1.title")}</div>
-                        <div className="space"></div>
-                        <div className="label">{translate("home.section.1.label")}</div>
-                        <div className="space"></div>
-                        <ScreenChangeButton 
-                            text={translate("edit_group_button") + " ("+this.props.app.groupEditorState.currentGroupName+")"} 
-                            app={this.props.app} 
-                            screen={App.ScreenEnum.PeopleEditor} 
-                            className=""/>
-                    </div>
-
-                    <div className="body-section">
-                        <div className="title">{translate("settings")}</div>
-                        <div className="space"></div>
-                        <div onClick={(()=>{this.props.app.toggleTheme()}).bind(this)} className="button">{translate("change_theme")}</div>
-
-                        { this.props.app.client.loggedIn ? 
-                            <div onClick={(()=>{this.props.app.logOut()}).bind(this)} className="button error">{translate("log_out")}</div>
-                            : ""
-                        }
-                    </div>
-                </div>
-            }/>
-        )
-    }
-}
 
 
 

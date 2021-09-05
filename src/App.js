@@ -3,7 +3,7 @@ import React from 'react';
 import {Client} from './client/Client'
 import {DayEditorState} from './client/DayEditorState'
 import { GroupEditorState } from './client/GroupEditorState';
-import {LogInScreen, HomepageScreen, WaitingScreen, FloatingScreen} from './components/Screens'
+import {LogInScreen, WaitingScreen, FloatingScreen} from './components/Screens'
 import {PeopleCheckerScreen} from './components/PeopleChecker'
 import {Calendar} from './components/Calendar'
 
@@ -19,6 +19,7 @@ import { translate } from './client/Localization';
 import Cookies from 'js-cookie';
 import { config } from './client/Config';
 import { GroupEditorScreen } from './components/GroupEditor';
+import { HomepageScreen } from './components/HomepageScreen';
 
 export default class App extends React.Component{
   static ScreenEnum = Object.freeze({
@@ -36,7 +37,6 @@ export default class App extends React.Component{
 
     this.routerRef = React.createRef()
     this.onDataChanged = this.onDataChanged.bind(this)
-    this.readSearchData()
 
     this.clipboardRef = React.createRef()
 
@@ -89,10 +89,16 @@ export default class App extends React.Component{
     this.goToScreen(App.ScreenEnum.LogIn)
   }
   componentDidMount(){
+    this.currentScreen = this.getScreenFromRoute(window.location.pathname)
+    this.readSearchData()
     this.tryToLogin()
     searchParams.updateParams()
   }
   
+  getScreenFromRoute(route){
+    var route = route.substring(route.lastIndexOf("/"))
+    return App.ScreenRoutes.indexOf(route)
+  }
   getScreenRoute(screen){
     var route = "/"+config.sitename+App.ScreenRoutes[screen]
     return route

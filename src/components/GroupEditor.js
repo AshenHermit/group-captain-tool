@@ -5,6 +5,7 @@ import { translate } from '../client/Localization'
 import { Person } from '../client/GroupLibrary'
 import { GroupEditorState } from "../client/GroupEditorState"
 import { config } from "../client/Config"
+import { PropertyInput } from "./Editing"
 
 export class GroupEditorScreen extends React.Component{
     constructor(props){
@@ -119,25 +120,6 @@ export class GroupEditorScreen extends React.Component{
     }
 }
 
-class PropertyInput extends React.Component{
-    constructor(props){
-        super(props)
-        /**@type {{obj: Object, propKey: String, onChange: Function}} */
-        this.props = this.props
-        this.onChange = this.onChange.bind(this)
-    }
-    onChange(event){
-        this.props.obj[this.props.propKey] = event.target.value
-        this.forceUpdate()
-        if(this.props.onChange) this.props.onChange(event.target.value)
-    }
-    render(){
-        return (
-            <input type="text" value={this.props.obj[this.props.propKey]} onChange={this.onChange} className="input" name={"ashen-hermit-"+this.props.propKey+"-input"} autoComplete="off"></input>
-        )
-    }
-}
-
 export class PersonEditorScreen extends React.Component{
     constructor(props){
         super(props)
@@ -187,7 +169,7 @@ export class PersonEditorScreen extends React.Component{
         if(!("vk" in this.state.personCopy.links)) this.state.personCopy.links["vk"] = ""
         
         return (
-            <div className="person-editor">
+            <div className="person-editor editor">
                 <div className="title">{translate("editing")}</div>
                 <br/>
                 <div className="avatar">

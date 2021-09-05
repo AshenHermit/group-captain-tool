@@ -10,12 +10,10 @@ import { searchParams } from "../client/SearchParams";
 export class CalendarComponent extends React.Component{
     constructor(props){
         super(props)
-        /**@type {{app: App}} */
+        /**@type {{app: App, onChange: Function}} */
         this.props = this.props
 
-        this.state = {
-            selectedDate: new Date(this.props.app.dayEditorState.getCurrentDayTimestamp())
-        }
+        this.selectedDate = 0
 
         this.onDateChange = this.onDateChange.bind(this)
     }
@@ -34,9 +32,11 @@ export class CalendarComponent extends React.Component{
     }
 
     render(){
+        this.selectedDate = new Date(this.props.app.dayEditorState.getCurrentDayTimestamp())
+
         return (
             <div className="calendar-container">
-                <Calendar value={this.state.selectedDate} onChange={this.onDateChange} locale={config.locale}/>
+                <Calendar value={this.selectedDate} onChange={this.onDateChange} locale={config.locale}/>
             </div>
         )
     }

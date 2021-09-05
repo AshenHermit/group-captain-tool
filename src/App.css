@@ -6,22 +6,51 @@
   --text-color: #000000;
   --active-fill-color: #3e3e3e;
   --shadow-color: rgb(0 0 0 / 10%);
+  --scrollbar-color: rgb(0 0 0 / 10%);
+  --button-border-color: rgb(0 0 0 / 2%);
+  --button-hover-color: rgb(0 0 0 / 4%);
 }
 .theme.dark{
   --minor-bg-color: #151515;
-  --panel-bg-color: #353535;
   --panel-bg-color: #313131;
   --input-bg-color: #2c2c2c;
   --text-color: #fff;
   --active-fill-color: #fff;
   --shadow-color: rgb(0 0 0 / 31%);
+  --scrollbar-color: rgb(255 255 255 / 10%);
+  --button-border-color: rgb(255 255 255 / 2%);
+  --button-hover-color: rgb(255 255 255 / 4%);
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 5%) rgb(255 255 255 / 24%);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-color);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-color);
 }
 
 .app {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: var(--panel-bg-color);
+  background-color: var(--minor-bg-color);
   color: var(--text-color);
 }
 
@@ -108,13 +137,15 @@
   cursor: pointer;
   user-select: none;
   border-radius: 2px;
+  border-bottom: 2px solid var(--button-border-color);
+  margin-bottom: 4px;
 }
 .button.small{
   padding: 0.7em;
   font-size: 0.9em;
 }
 .button:hover{
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--button-hover-color);
 }
 .button:active{
   opacity: 0.6;
@@ -166,8 +197,7 @@
 .person-item .info .link{
   margin-left: 10px;
   opacity: 0.5;
-}
-a {
+
   border-radius: 4px;
   padding: 0.2em;
   color: #ff5179;
@@ -176,6 +206,56 @@ a {
   text-decoration: none;
   font-size: 0.8em;
   font-weight: bold;
+}
+
+
+.document {
+  display: grid;
+  margin-bottom: 8px;
+  padding: 0.5em;
+  background-color: transparent;
+  align-items: center;
+  flex-direction: row;
+  grid-template-columns: 1fr 60px;
+  border-radius: 3px; 
+}
+.document:hover{
+  background-color: var(--panel-bg-color);
+}
+.document .link{
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.document .info {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.document .info .title{
+  opacity: 1.0;
+  font-size: 1.0em;
+  word-break: break-word;
+}
+.document .info .description{
+  opacity: 0.7;
+  font-size: 0.75em;
+  word-break: break-word;
+  margin-top: 4px;
+}
+.documents-container{
+  background-color: rgb(0 0 0 / 4%);
+  padding: 1em;
+  margin-top: 10px;
+}
+.documents-container.invisible{
+  display: none;
+}
+
+
+a {
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 .check-button {
@@ -240,7 +320,7 @@ a {
   padding: 1.5em;
 }
 
-.person-editor{
+.editor{
   display: flex;
   flex-direction: column;
   padding: 2em;
@@ -258,7 +338,7 @@ a {
   border-radius: 4px;
 }
 
-.person-editor .bottom-buttons{
+.editor .bottom-buttons{
   margin-top: 32px;
   display: flex;
   flex-direction: row;
@@ -268,6 +348,7 @@ a {
 .calendar-container{
   display: flex;
   justify-content: center;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 

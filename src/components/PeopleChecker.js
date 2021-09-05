@@ -4,7 +4,7 @@ import App from '../App'
 import { ScreenScaffold } from './Screens'
 import { DayData, Person } from '../client/GroupLibrary'
 import { addFixedChars } from '../client/Utils'
-import { translate } from '../client/Localization'
+import { localization, translate } from '../client/Localization'
 
 export class PersonCheckState{
     /**
@@ -98,8 +98,8 @@ export class PeopleCheckerScreen extends React.Component{
     render(){
         let date = this.props.app.dayEditorState.currentDayDate
         let dateText = `${addFixedChars(date.getDate().toString(), "0", 2)}.${addFixedChars((date.getMonth()+1).toString(), "0", 2)}.${date.getFullYear()}`
-        let dateVerboseText = date.getDate().toString() + " " + translate("month."+date.getMonth()+".genitive")
-        let titleDate = dateVerboseText + " " + date.getFullYear().toString()
+        let dateVerboseText = localization.translateDay(date, false)
+        let titleDate = localization.translateDay(date, true)
         let groupName = this.props.app.groupEditorState.currentGroupName
 
         return (

@@ -17,15 +17,35 @@ export class Person extends Exportable{
     }
 }
 
+export class DocumentData extends Exportable{
+    constructor(title="", description="", link=""){
+        super()
+        this.registerClasses(null, null)
+        this.title = title
+        this.description = description
+        this.link = link
+    }
+}
 export class DayData extends Exportable{
     constructor(){
         super()
-        this.registerClasses(null, null)
+        this.registerClasses({documents: DocumentData}, null)
         /**@type {Array<Number>}*/
         this.checkedPeopleUids = []
+        /**@type {Array<DocumentData>}*/
+        this.documents = []
+    }
+
+    addDocument(document){
+        this.documents.push(document)
+    }
+    removeDocument(document){
+        this.documents.splice(
+            this.documents.indexOf(document), 1)
     }
 }
 
+//not in use
 export class CalendarData extends Exportable{
     constructor(){
         super()
@@ -81,6 +101,7 @@ export class GroupData extends Exportable{
     }
 }
 
+//not in use
 export class GroupLibrary extends Exportable{
     constructor(){
         super()
