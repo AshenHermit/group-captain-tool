@@ -25,7 +25,6 @@ export class CalendarComponent extends React.Component{
             ()=>{
                 searchParams.current_day_timestamp = this.props.app.dayEditorState.currentDayTimestamp
                 searchParams.replaceParams()
-                console.log(searchParams.current_day_timestamp)
             }
         )
         this.setState({selectedDate: date})

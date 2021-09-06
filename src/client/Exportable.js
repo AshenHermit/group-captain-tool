@@ -2,7 +2,8 @@ export class Exportable{
     constructor(){
         this.arrayItemsClasses={}
         this.dictItemsClasses={}
-        this.propertyExceptions=["arrayItemsClasses", "dictItemsClasses", "propertyExceptions"]
+        this.propertyClasses={}
+        this.propertyExceptions=["arrayItemsClasses", "dictItemsClasses", "propertyExceptions", "propertyClasses"]
     }
     /**
      * 
@@ -11,9 +12,10 @@ export class Exportable{
      * @param {Array<String>} propertyExceptions
      * @returns this
      */
-     registerClasses(arrayItemsClasses=null, dictItemsClasses=null, propertyExceptions=null){
+     registerClasses(arrayItemsClasses=null, dictItemsClasses=null, propertyClasses=null, propertyExceptions=null){
         this.arrayItemsClasses = arrayItemsClasses
         this.dictItemsClasses = dictItemsClasses
+        this.propertyClasses = propertyClasses
         if(propertyExceptions!=null) this.propertyExceptions = this.propertyExceptions.concat(propertyExceptions)
     }
 
@@ -52,14 +54,14 @@ export class Exportable{
     }
 
     exportData(){
-        return this.smartExport(this.arrayItemsClasses, this.dictItemsClasses, this.propertyExceptions)
+        return this.smartExport(this.arrayItemsClasses, this.dictItemsClasses, this.propertyClasses, this.propertyExceptions)
     }
     /**
      * Should return this object.
      * @param {Dict} dict 
      */
     importData(dict){
-        return this.smartImport(dict, this.arrayItemsClasses, this.dictItemsClasses, this.propertyExceptions)
+        return this.smartImport(dict, this.arrayItemsClasses, this.dictItemsClasses, this.propertyClasses, this.propertyExceptions)
     }
 
 
@@ -70,7 +72,7 @@ export class Exportable{
      * @param {Dict<Exportable>} dictItemsClasses
      * @returns this
      */
-    smartImport(data, arrayItemsClasses=null, dictItemsClasses=null, propertyExceptions=null){
+    smartImport(data, arrayItemsClasses=null, dictItemsClasses=null, propertyClasses=null, propertyExceptions=null){
         data = Object.assign({}, data)
         if(propertyExceptions!=null){
             propertyExceptions.forEach(propertyKey=>{
@@ -91,6 +93,13 @@ export class Exportable{
             if(dictKey in data)
                 this[dictKey] = Exportable.importDict(data[dictKey], dictItemsClasses[dictKey])
         })
+
+        if(propertyClasses!=null)
+        Object.keys(propertyClasses).forEach(propKey=>{
+            if(propKey in data)
+                this[propKey] = new propertyClasses[propKey]().importData(data[propKey])
+        })
+
         return this
     }
     /**
@@ -99,7 +108,7 @@ export class Exportable{
      * @param {Dict<Exportable>} dictItemsClasses
      * @returns this
      */
-    smartExport(arrayItemsClasses=null, dictItemsClasses=null, propertyExceptions=null){
+    smartExport(arrayItemsClasses=null, dictItemsClasses=null, propertyClasses=null, propertyExceptions=null){
         var rawData = this.convertToDict()
 
         if(arrayItemsClasses!=null)
@@ -112,6 +121,12 @@ export class Exportable{
         Object.keys(dictItemsClasses).forEach(dictKey=>{
             if(dictKey in this)
                 rawData[dictKey] = Exportable.exportDict(this[dictKey])
+        })
+
+        if(propertyClasses!=null)
+        Object.keys(propertyClasses).forEach(propKey=>{
+            if(propKey in this)
+                rawData[propKey] = this[propKey].exportData()
         })
 
         if(propertyExceptions!=null){

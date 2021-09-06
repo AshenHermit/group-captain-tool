@@ -15,8 +15,8 @@ function createDefaultGroup(){
 function createDefaultDay(){
     var day = new DayData()
     if(config.createTestData){
-        day.addDocument(new DocumentData("title", "desc", "some link"))
-        day.addDocument(new DocumentData("asd", "wa asd aadad wag", "aw asd aw aga"))
+        day.documentsLibrary.addDocument(new DocumentData("title", "desc", "some link"))
+        day.documentsLibrary.addDocument(new DocumentData("asd", "wa asd aadad wag", "aw asd aw aga"))
     }
     return day
 }
@@ -81,6 +81,7 @@ export class RemoteApi{
     makeGetDataRequest(apiRequestUrl, exportableClass, defaultValue, callback){
         try{
             fetch(config.localApiUrl+apiRequestUrl).then(req=>req.json()).then(data=>{
+                if("error" in data) throw data
                 var exportable = new exportableClass()
                 exportable.importData(data)
                 callback(exportable)

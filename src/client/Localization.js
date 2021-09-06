@@ -44,6 +44,9 @@ save_error, "Не получилось сохранить данные, похо
 show_documents, "Прикрепленные документы", ""
 edit, "edit", "edit"
 
+home.section.global_documents.title, "Глобальные документы", ""
+home.section.global_documents.lable, "ссылки на полезные страницы", ""
+
 month.0.genitive,"января",""
 month.1.genitive,"февраля",""
 month.2.genitive,"марта",""

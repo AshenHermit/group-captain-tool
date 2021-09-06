@@ -26,12 +26,10 @@ export class DocumentData extends Exportable{
         this.link = link
     }
 }
-export class DayData extends Exportable{
+export class DocumentsLibrary extends Exportable{
     constructor(){
         super()
         this.registerClasses({documents: DocumentData}, null)
-        /**@type {Array<Number>}*/
-        this.checkedPeopleUids = []
         /**@type {Array<DocumentData>}*/
         this.documents = []
     }
@@ -42,6 +40,19 @@ export class DayData extends Exportable{
     removeDocument(document){
         this.documents.splice(
             this.documents.indexOf(document), 1)
+    }
+}
+export class DayData extends Exportable{
+    constructor(){
+        super()
+        this.registerClasses(
+            {documents: DocumentData}, 
+            null, 
+            {documentsLibrary: DocumentsLibrary})
+        /**@type {Array<Number>}*/
+        this.checkedPeopleUids = []
+        /**@type {DocumentsLibrary}*/
+        this.documentsLibrary = new DocumentsLibrary()
     }
 }
 
@@ -59,11 +70,12 @@ export class CalendarData extends Exportable{
 export class GroupData extends Exportable{
     constructor(){
         super()
-        this.registerClasses({people: Person}, null, ["nextPersonUID"])
+        this.registerClasses({people: Person}, null, {documentsLibrary: DocumentsLibrary}, ["nextPersonUID"])
         
         /**@type {Array<Person>} */
         this.people = []
         this.nextPersonUID = 0
+        this.documentsLibrary = new DocumentsLibrary()
     }
 
     addPerson(person){

@@ -2,7 +2,7 @@ import React from "react"
 import App from "../App"
 import { DayEditorState } from "../client/DayEditorState"
 import { GroupEditorState } from "../client/GroupEditorState"
-import { DocumentData } from "../client/GroupLibrary"
+import { DocumentData, DocumentsLibrary } from "../client/GroupLibrary"
 import { translate } from "../client/Localization"
 import { CalendarComponent } from "./Calendar"
 import { DataEditorComponent, PropertyInput } from "./Editing"
@@ -18,6 +18,13 @@ export class HomepageScreen extends React.Component{
 
         this.dayDataChanged = this.dayDataChanged.bind(this)
         this.onShowDocuments = this.onShowDocuments.bind(this)
+        this.onError = this.onError.bind(this)
+        this.saveDayData = this.saveDayData.bind(this)
+        this.saveGroupData = this.saveGroupData.bind(this)
+
+        this.state = {
+            error: "",
+        }
     }
 
     componentDidMount(){
@@ -35,9 +42,30 @@ export class HomepageScreen extends React.Component{
         this.documentsContainerRef.current.toggleVisibility()
     }
 
+    onError(){
+
+    }
+    saveDayData(){
+        this.props.app.dayEditorState.save(
+            this.props.app.groupEditorState.currentGroupName, 
+            success=>{
+                if(!success) this.setState({error: translate("save_error")})
+        })
+        this.forceUpdate()
+    }
+    saveGroupData(){
+        this.props.app.groupEditorState.save(
+            success=>{
+                if(!success) this.setState({error: translate("save_error")})
+        })
+        this.forceUpdate()
+    }
+
     render(){
-        var documentsCount = this.props.app.dayEditorState.dayData.documents.length
-        var documentsCountPostfix = documentsCount > 0 ? ` (${documentsCount})` : ''
+        var documentsCount = this.props.app.dayEditorState.dayData.documentsLibrary.documents.length
+        var documentsCountPostfix = documentsCount > 0 ? ` [${documentsCount}]` : ''
+        var globalDocumentsCount = this.props.app.groupEditorState.groupData.documentsLibrary.documents.length
+        var globalDocumentsCountPostfix = globalDocumentsCount > 0 ? ` [${globalDocumentsCount}]` : ''
 
         return (
             <ScreenScaffold
@@ -53,19 +81,6 @@ export class HomepageScreen extends React.Component{
             body={
                 <div>
                     <div className="body-section">
-                        <div className="title">{translate("home.section.0.title")}</div>
-                        <div className="space"></div>
-                        <div className="label">{translate("home.section.0.label")}</div>
-                        <div className="space"></div>
-
-                        <CalendarComponent app={this.props.app}/>
-
-                        <ScreenChangeButton text={translate("check_people_button")} app={this.props.app} screen={App.ScreenEnum.PeopleChecker} className=""/>
-                        <div onClick={this.onShowDocuments} className="button">{translate("show_documents")}{documentsCountPostfix}</div>
-                        <DocumentsContainer app={this.props.app} ref={this.documentsContainerRef} onChange={this.dayDataChanged}/>
-                    </div>
-
-                    <div className="body-section">
                         <div className="title">{translate("home.section.1.title")}</div>
                         <div className="space"></div>
                         <div className="label">{translate("home.section.1.label")}</div>
@@ -75,6 +90,37 @@ export class HomepageScreen extends React.Component{
                             app={this.props.app} 
                             screen={App.ScreenEnum.PeopleEditor} 
                             className=""/>
+                    </div>
+
+                    <div className="body-section">
+                        <div className="title">{translate("home.section.0.title")}</div>
+                        <div className="space"></div>
+                        <div className="label">{translate("home.section.0.label")}</div>
+                        <div className="space"></div>
+
+                        <CalendarComponent app={this.props.app}/>
+
+                        <ScreenChangeButton text={translate("check_people_button")} app={this.props.app} screen={App.ScreenEnum.PeopleChecker} className=""/>
+                        <div onClick={this.onShowDocuments} className="button">{translate("show_documents")}{documentsCountPostfix}</div>
+
+                        <DocumentsContainer 
+                            documentsLibrary={this.props.app.dayEditorState.dayData.documentsLibrary} 
+                            ref={this.documentsContainerRef} 
+                            onChange={this.saveDayData}/>
+                    </div>
+
+                    {this.state.error ? [<div className="error">{this.state.error}</div>,<br/>] : ""}
+                    
+                    <div className="body-section">
+                        <div className="title">{translate("home.section.global_documents.title")}{globalDocumentsCountPostfix}</div>
+                        <div className="space"></div>
+                        {/* <div className="label">{translate("home.section.global_documents.label")}</div>
+                        <div className="space"></div> */}
+
+                        <DocumentsContainer 
+                            documentsLibrary={this.props.app.groupEditorState.groupData.documentsLibrary} 
+                            shown={true}
+                            onChange={this.saveGroupData}/>
                     </div>
 
                     <div className="body-section">
@@ -96,7 +142,7 @@ export class HomepageScreen extends React.Component{
 class DocumentsContainer extends React.Component{
     constructor(props){
         super(props)
-        /**@type {{app: App, onChange: Function}} */
+        /**@type {{documentsLibrary: DocumentsLibrary, onChange: Function, shown: Boolean}} */
         this.props = this.props
 
         this.startEditingDocument = this.startEditingDocument.bind(this)
@@ -104,11 +150,9 @@ class DocumentsContainer extends React.Component{
 
         this.addDocument = this.addDocument.bind(this)
         this.onEdited = this.onEdited.bind(this)
-        this.onError = this.onError.bind(this)
 
         this.state = {
-            error: "",
-            visible: false,
+            visible: this.props.shown,
         }
     }
 
@@ -120,7 +164,7 @@ class DocumentsContainer extends React.Component{
 
     addDocument(){
         var document = new DocumentData("title", "desc")
-        this.props.app.dayEditorState.dayData.addDocument(document)
+        this.props.documentsLibrary.addDocument(document)
         this.startEditingDocument(document)
         if(this.props.onChange) this.props.onChange()
         this.forceUpdate()
@@ -129,27 +173,17 @@ class DocumentsContainer extends React.Component{
         this.documentEditorRef.current.startEditing(document)
     }
     onEdited(){
-        this.props.app.dayEditorState.save(this.props.app.groupEditorState.currentGroupName, success=>{
-            if(!success) this.onError()
-        })
         if(this.props.onChange) this.props.onChange()
         this.forceUpdate()
-    }
-
-    onError(){
-        this.setState({
-            error: translate("save_error")
-        })
     }
 
     render(){
         let visibleClassName = this.state.visible ? "" : "invisible"
         return (
             <div>
-                {this.state.error ? <div className="error">{this.state.error}</div> : ""}
                 <div className={"documents-container " + visibleClassName}>
                     {
-                        this.props.app.dayEditorState.dayData.documents.map((documentData, i)=>{
+                        this.props.documentsLibrary.documents.map((documentData, i)=>{
                             return <DocumentComponent 
                                     key={documentData.title+documentData.description+i.toString()} 
                                     document={documentData} 
@@ -162,9 +196,8 @@ class DocumentsContainer extends React.Component{
                 <DocumentEditorComponent 
                     ref={this.documentEditorRef} 
                     onChange={this.onEdited} 
-                    groupEditorState={this.props.app.groupEditorState}
-                    dayEditorState={this.props.app.dayEditorState}
-                    onError={this.onError}/>
+                    documentsLibrary={this.props.documentsLibrary}
+                    onError={this.props.onError}/>
             </div>
         )
     }
@@ -204,10 +237,10 @@ class DocumentComponent extends React.Component{
 export class DocumentEditorComponent extends DataEditorComponent{
     constructor(props){
         super(props)
-        /**@type {{onChange: Function, dataClass: Object, deleteFunction:Function, groupEditorState: GroupEditorState, dayEditorState: DayEditorState, onError: Function}} */
+        /**@type {{onChange: Function, dataClass: Object, deleteFunction:Function, documentsLibrary: DocumentsLibrary, onError: Function}} */
         this.props = this.props
         this.dataClass = DocumentData
-        this.deleteFunction = this.props.dayEditorState.dayData.removeDocument.bind(this.props.dayEditorState.dayData)
+        this.deleteFunction = null
 
         /**@type {DocumentData} */
         this.state.dataCopy = this.state.dataCopy
@@ -215,7 +248,7 @@ export class DocumentEditorComponent extends DataEditorComponent{
         this.floatingScreenRef = React.createRef()
     }
     startEditing(data){
-        this.deleteFunction = this.props.dayEditorState.dayData.removeDocument.bind(this.props.dayEditorState.dayData)
+        this.deleteFunction = this.props.documentsLibrary.removeDocument.bind(this.props.documentsLibrary)
         super.startEditing(data)
         this.floatingScreenRef.current.show()
     }
