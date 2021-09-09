@@ -1,4 +1,5 @@
 import {Exportable} from './Exportable'
+import { getCurrentWeek as getWeekNumber } from './Utils'
 
 export class Person extends Exportable{
     /**
@@ -29,9 +30,10 @@ export class DocumentData extends Exportable{
 export class DocumentsLibrary extends Exportable{
     constructor(){
         super()
-        this.registerClasses({documents: DocumentData}, null)
+        this.registerClasses({documents: DocumentData}, null, null, ["isLoaded"])
         /**@type {Array<DocumentData>}*/
         this.documents = []
+        this.isLoaded = true
     }
 
     addDocument(document){
@@ -121,5 +123,52 @@ export class GroupLibrary extends Exportable{
         
         /**@type {Dict<GroupData>} */
         this.groups = {}
+    }
+}
+
+export class Lesson{
+    constructor(number, name, rooms, teachers, time_end, time_start, types){
+        this.number = number
+        this.name = name
+        this.rooms = rooms
+        this.teachers = teachers
+        this.time_end = time_end
+        this.time_start = time_start
+        this.types = types
+    }
+}
+
+//not in use
+export class Schedule extends Exportable{
+    constructor(){
+        super()
+        this.registerClasses(null, null, null, null)
+        
+        this.schedule = {}
+    }
+    getDayLessons(dayTimestamp){
+        var date = new Date(dayTimestamp)
+        var weekNumber = getWeekNumber(dayTimestamp)
+        var isWeekEven = weekNumber%2==0
+
+        /**@type {Array<Lesson>} */
+        var lessons = []
+
+        var dayKey = date.getDay()
+        if(!(dayKey in this.schedule)){
+            return lessons
+        }
+        this.schedule[dayKey].lessons.forEach((lessonContainer, number)=>{
+            if(lessonContainer.length==0) return
+            lessonContainer.forEach(lesson=>{
+                if(lesson.weeks.indexOf(weekNumber)!=-1){
+                    var lessonData = new Lesson(number+1, 
+                        lesson.name, lesson.rooms, lesson.teachers, 
+                        lesson.time_end, lesson.time_start, lesson.types)
+                    lessons.push(lessonData)
+                }
+            })
+        })
+        return lessons
     }
 }

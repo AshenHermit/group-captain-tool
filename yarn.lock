@@ -7677,6 +7677,13 @@
     "lower-case" "^2.0.2"
     "tslib" "^2.0.3"
 
+"node-clock@^0.1.1":
+  "integrity" "sha1-tdIONbOTB172nuolBXRYp7baIug="
+  "resolved" "https://registry.npmjs.org/node-clock/-/node-clock-0.1.1.tgz"
+  "version" "0.1.1"
+  dependencies:
+    "timezone" "~0.0.23"
+
 "node-forge@^0.10.0":
   "integrity" "sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA=="
   "resolved" "https://registry.npmjs.org/node-forge/-/node-forge-0.10.0.tgz"
@@ -10952,6 +10959,11 @@
   "version" "2.0.12"
   dependencies:
     "setimmediate" "^1.0.4"
+
+"timezone@~0.0.23":
+  "integrity" "sha1-cYA82LarG2RUBDMMDLj4SqIlPCI="
+  "resolved" "https://registry.npmjs.org/timezone/-/timezone-0.0.48.tgz"
+  "version" "0.0.48"
 
 "timsort@^0.3.0":
   "integrity" "sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q="

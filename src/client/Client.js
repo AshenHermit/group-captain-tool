@@ -25,8 +25,8 @@ export class Client{
         return true
     }
     saveCookies(username, password){
-        Cookies.set(config.usernameCookieName, username)
-        Cookies.set(config.passwordCookieName, password)
+        Cookies.set(config.usernameCookieName, username, { expires: 365 })
+        Cookies.set(config.passwordCookieName, password, { expires: 365 })
     }
     logInWithFields(username, password, callback){
         this.api.logIn(username, password, (success)=>{

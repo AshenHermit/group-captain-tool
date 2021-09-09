@@ -1,5 +1,7 @@
 import { config } from "./Config"
-import { DayData, DocumentData, GroupData as GroupData, Person } from "./GroupLibrary"
+import { DayData, DocumentData, GroupData as GroupData, Person, Schedule } from "./GroupLibrary"
+
+const testScheduleData = {"group":"ИНБО-12-21","schedule":{"1":{"lessons":[[],[],[],[{"name":"История (история России, всеобщая история)","weeks":[2,4,6,8,10,12,14,16],"time_start":"14:20","time_end":"15:50","types":"пр","teachers":["Мельтюхов М.И."],"rooms":["А-204"]}],[{"name":"Линейная алгебра и аналитическая геометрия","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"16:20","time_end":"17:50","types":"пр","teachers":[],"rooms":["А-407"]},{"name":"Линейная алгебра и аналитическая геометрия","weeks":[2,4,6,8,10,12,14,16],"time_start":"16:20","time_end":"17:50","types":"пр","teachers":[],"rooms":["А-407"]}],[{"name":"Математический анализ","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"18:00","time_end":"19:30","types":"пр","teachers":[],"rooms":["А-407"]},{"name":"Математический анализ","weeks":[2,4,6,8,10,12,14,16],"time_start":"18:00","time_end":"19:30","types":"пр","teachers":[],"rooms":["А-407"]}]]},"2":{"lessons":[[],[],[{"name":"Физика (1 п/г)","weeks":[3,7,11,15],"time_start":"12:40","time_end":"14:10","types":"лаб\nлаб","teachers":[],"rooms":["В-327"]},{"name":"Физика (2 п/г)","weeks":[3,7,11,15],"time_start":"12:40","time_end":"14:10","types":"лаб\nлаб","teachers":[],"rooms":["В-327"]}],[{"name":"Физика (1 п/г)","weeks":[3,7,11,15],"time_start":"14:20","time_end":"15:50","types":"лаб\nлаб","teachers":[],"rooms":["В-327"]},{"name":"Физика (2 п/г)","weeks":[3,7,11,15],"time_start":"14:20","time_end":"15:50","types":"лаб\nлаб","teachers":[],"rooms":["В-327"]}],[{"name":"Процедурное программирование","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"16:20","time_end":"17:50","types":"пр","teachers":[],"rooms":["ивц-107"]},{"name":"Процедурное программирование","weeks":[2,4,6,8,10,12,14,16],"time_start":"16:20","time_end":"17:50","types":"пр","teachers":[],"rooms":["ивц-107"]}],[{"name":"Процедурное программирование","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"18:00","time_end":"19:30","types":"пр","teachers":[],"rooms":["ивц-107"]},{"name":"Процедурное программирование","weeks":[2,4,6,8,10,12,14,16],"time_start":"18:00","time_end":"19:30","types":"пр","teachers":[],"rooms":["ивц-107"]}]]},"3":{"lessons":[[],[{"name":"Линейная алгебра и аналитическая геометрия","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"10:40","time_end":"12:10","types":"лк","teachers":["Пихтилькова О.А."],"rooms":["Д"]},{"name":"Линейная алгебра и аналитическая геометрия","weeks":[2,4,6,8,10,12,14,16],"time_start":"10:40","time_end":"12:10","types":"лк","teachers":["Пихтилькова О.А."],"rooms":["Д"]}],[],[{"name":"Процедурное программирование","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"14:20","time_end":"15:50","types":"лк","teachers":["Каширская Е.Н."],"rooms":["Д"]},{"name":"История (история России, всеобщая история)","weeks":[2,4,6,8,10,12,14,16],"time_start":"14:20","time_end":"15:50","types":"лк","teachers":["Мельтюхов М.И."],"rooms":["Д"]}],[{"name":"Введение в профессиональную деятельность","weeks":[2,4,6,8,10,12,14,16],"time_start":"16:20","time_end":"17:50","types":"лк","teachers":["Бергер Е.К."],"rooms":["Д"]}],[]]},"4":{"lessons":[[{"name":"ин.яз 1,2 подгр","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"9:00","time_end":"10:30","types":"пр","teachers":["Рыбакова Е.Е Гаврилова Е.А"],"rooms":["и-304 А-324"]},{"name":"ин.яз 1,2 подгр","weeks":[2,4,6,8,10,12,14,16],"time_start":"9:00","time_end":"10:30","types":"пр","teachers":["Рыбакова Е.Е Гаврилова Е.А"],"rooms":["и-304 А-324"]}],[{"name":"Информатика","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"10:40","time_end":"12:10","types":"пр","teachers":["Норица В.М."],"rooms":["А-424-1"]},{"name":"Информатика","weeks":[2,4,6,8,10,12,14,16],"time_start":"10:40","time_end":"12:10","types":"пр","teachers":["Норица В.М."],"rooms":["А-424-1"]}],[{"name":"Физика","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"12:40","time_end":"14:10","types":"пр","teachers":[],"rooms":["В-408"]},{"name":"Физика","weeks":[2,4,6,8,10,12,14,16],"time_start":"12:40","time_end":"14:10","types":"пр","teachers":[],"rooms":["В-408"]}],[{"name":"Физическая культура и спорт","weeks":[1,3,5,7,9,11,13,15,17],"time_start":"14:20","time_end":"15:50","types":"пр","teachers":[],"rooms":[]},{"name":"Физическая культура и спорт","weeks":[2,4,6,8,10,12,14,16],"time_start":"14:20","time_end":"15:50","types":"пр","teachers":[],"rooms":[]}],[],[]]},"5":{"lessons":[[],[],[],[{"name":"Физика","weeks":[3,5,7,9,11,13,15,17],"time_start":"14:20","time_end":"15:50","types":"лк","teachers":["Давыдов В.А."],"rooms":["Д"]},{"name":"Физика","weeks":[2,4,6,8,10,12,14,16],"time_start":"14:20","time_end":"15:50","types":"лк","teachers":["Давыдов В.А."],"rooms":["Д"]}],[{"name":"Математический анализ","weeks":[3,5,7,9,11,13,15,17],"time_start":"16:20","time_end":"17:50","types":"лк","teachers":["Шульман И.Л."],"rooms":["Д"]},{"name":"Математический анализ","weeks":[2,4,6,8,10,12,14,16],"time_start":"16:20","time_end":"17:50","types":"лк","teachers":["Шульман И.Л."],"rooms":["Д"]}],[{"name":"Информатика","weeks":[3,5,7,9,11,13,15,17],"time_start":"18:00","time_end":"19:30","types":"лк","teachers":["Смирнов С.С."],"rooms":["Д"]},{"name":"Информатика","weeks":[2,4,6,8,10,12,14,16],"time_start":"18:00","time_end":"19:30","types":"лк","teachers":["Смирнов С.С."],"rooms":["Д"]}]]},"6":{"lessons":[[],[],[],[],[],[]]}}}
 
 function createDefaultGroup(){ 
     var group = new GroupData()
@@ -95,6 +97,23 @@ export class RemoteApi{
             callback(defaultValue)
         }
     }
+    makeExternalGetRequest(apiRequestUrl, defaultValue, callback){
+        try{
+            fetch(apiRequestUrl).then(req=>{
+                if(!req.ok) throw req.statusText
+                return req.json()
+            }).then(data=>{
+                callback(data)
+            }).catch((reason)=>{
+                console.error(reason)
+                callback(defaultValue)
+            })
+        }
+        catch(e){
+            console.error(e)
+            callback(defaultValue)
+        }
+    }
     
     getGroup(groupName, callback){
         this.makeGetDataRequest(
@@ -125,5 +144,13 @@ export class RemoteApi{
                 callback(success)
             }
         )
+    }
+
+    getFullSchedule(groupName, callback){
+        this.makeExternalGetRequest(`http://schedule.mirea.ninja:5000/api/schedule/${groupName}/full_schedule`, testScheduleData, data=>{
+            if(Object.keys(data)==0) return
+            var schedule = new Schedule().importData(data)
+            if(callback!=null) callback(schedule)
+        })
     }
 }

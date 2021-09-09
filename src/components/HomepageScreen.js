@@ -6,6 +6,7 @@ import { DocumentData, DocumentsLibrary } from "../client/GroupLibrary"
 import { translate } from "../client/Localization"
 import { CalendarComponent } from "./Calendar"
 import { DataEditorComponent, PropertyInput } from "./Editing"
+import { ScheduleComponent } from "./Schedule"
 import { FloatingScreen, ScreenChangeButton, ScreenScaffold } from "./Screens"
 
 export class HomepageScreen extends React.Component{
@@ -15,9 +16,11 @@ export class HomepageScreen extends React.Component{
         this.props = this.props
 
         this.documentsContainerRef = React.createRef()
+        this.scheduleRef = React.createRef()
 
         this.dayDataChanged = this.dayDataChanged.bind(this)
-        this.onShowDocuments = this.onShowDocuments.bind(this)
+        this.showDocuments = this.showDocuments.bind(this)
+        this.showSchedule = this.showSchedule.bind(this)
         this.onError = this.onError.bind(this)
         this.saveDayData = this.saveDayData.bind(this)
         this.saveGroupData = this.saveGroupData.bind(this)
@@ -38,8 +41,11 @@ export class HomepageScreen extends React.Component{
         this.forceUpdate()
     }
 
-    onShowDocuments(){
+    showDocuments(){
         this.documentsContainerRef.current.toggleVisibility()
+    }
+    showSchedule(){
+        this.scheduleRef.current.toggleVisibility()
     }
 
     onError(){
@@ -64,6 +70,7 @@ export class HomepageScreen extends React.Component{
     render(){
         var documentsCount = this.props.app.dayEditorState.dayData.documentsLibrary.documents.length
         var documentsCountPostfix = documentsCount > 0 ? ` [${documentsCount}]` : ''
+        if(!this.props.app.dayEditorState.dayData.documentsLibrary.isLoaded) documentsCountPostfix = ""
         var globalDocumentsCount = this.props.app.groupEditorState.groupData.documentsLibrary.documents.length
         var globalDocumentsCountPostfix = globalDocumentsCount > 0 ? ` [${globalDocumentsCount}]` : ''
 
@@ -73,7 +80,6 @@ export class HomepageScreen extends React.Component{
                 [
                     <div className="column">
                         <div className="title">{translate("home.title")}</div>
-                        <div className="space"></div>
                         <div className="label">{translate("home.head_label")}</div>
                     </div>
                 ]
@@ -98,15 +104,18 @@ export class HomepageScreen extends React.Component{
                         <div className="label">{translate("home.section.0.label")}</div>
                         <div className="space"></div>
 
-                        <CalendarComponent app={this.props.app}/>
+                        <CalendarComponent app={this.props.app} onChange={this.dayDataChanged}/>
 
                         <ScreenChangeButton text={translate("check_people_button")} app={this.props.app} screen={App.ScreenEnum.PeopleChecker} className=""/>
-                        <div onClick={this.onShowDocuments} className="button">{translate("show_documents")}{documentsCountPostfix}</div>
 
+                        <div onClick={this.showDocuments} className="button">{translate("show_documents")}{documentsCountPostfix}</div>
                         <DocumentsContainer 
                             documentsLibrary={this.props.app.dayEditorState.dayData.documentsLibrary} 
                             ref={this.documentsContainerRef} 
                             onChange={this.saveDayData}/>
+
+                        <div onClick={this.showSchedule} className="button">{translate("show_schedule")}</div>
+                        <ScheduleComponent app={this.props.app} ref={this.scheduleRef} visible={false}/>
                     </div>
 
                     {this.state.error ? [<div className="error">{this.state.error}</div>,<br/>] : ""}
@@ -176,12 +185,24 @@ class DocumentsContainer extends React.Component{
         if(this.props.onChange) this.props.onChange()
         this.forceUpdate()
     }
-
-    render(){
-        let visibleClassName = this.state.visible ? "" : "invisible"
+    renderUnloadedLibrary(){
         return (
             <div>
-                <div className={"documents-container " + visibleClassName}>
+                <div className={"documents-container cards-container"}>
+                    {
+                        <div className="document">{translate("loading")}</div>
+                    }
+                    <div onClick={this.addDocument} className={"button"}>{translate("add")}</div>
+                </div>
+            </div>
+        )
+    }
+    render(){
+        if(!this.state.visible) return ""
+        if(!this.props.documentsLibrary.isLoaded) return this.renderUnloadedLibrary()
+        return [
+            <div>
+                <div className={"documents-container cards-container"}>
                     {
                         this.props.documentsLibrary.documents.map((documentData, i)=>{
                             return <DocumentComponent 
@@ -198,8 +219,9 @@ class DocumentsContainer extends React.Component{
                     onChange={this.onEdited} 
                     documentsLibrary={this.props.documentsLibrary}
                     onError={this.props.onError}/>
-            </div>
-        )
+            </div>,
+            this.state.visible ? <br/> : ""
+        ]
     }
 }
 class DocumentComponent extends React.Component{

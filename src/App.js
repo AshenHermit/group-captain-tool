@@ -31,7 +31,7 @@ export default class App extends React.Component{
     this.client = new Client()
     this.dayEditorState = new DayEditorState(this.client.api)
     this.groupEditorState = new GroupEditorState(this.client.api)
-    this.currentRoute = window.location.pathname
+    this.currentRoute = this.formatRouteFromPathname(window.location.pathname)
 
     window.app = this
 
@@ -44,7 +44,7 @@ export default class App extends React.Component{
     if(Cookies.get("theme") && Cookies.get("theme")!="undefined"){
       this.theme = Cookies.get("theme")
     }else{
-      Cookies.set(this.theme)
+      Cookies.set(this.theme, { expires: 365 })
     }
   }
 
@@ -89,7 +89,7 @@ export default class App extends React.Component{
     this.goToScreen(App.ScreenEnum.LogIn)
   }
   componentDidMount(){
-    this.currentScreen = this.getScreenFromRoute(window.location.pathname)
+    this.currentScreen = this.getScreenFromRoute(this.formatRouteFromPathname(window.location.pathname))
     this.readSearchData()
     this.tryToLogin()
     searchParams.updateParams()
@@ -98,6 +98,11 @@ export default class App extends React.Component{
   getScreenFromRoute(route){
     var route = route.substring(route.lastIndexOf("/"))
     return App.ScreenRoutes.indexOf(route)
+  }
+  formatRouteFromPathname(pathname){
+    var route = pathname
+    if(route.charAt(route.length-1) == "/") route = route.substring(0, route.length-1)
+    return route
   }
   getScreenRoute(screen){
     var route = "/"+config.sitename+App.ScreenRoutes[screen]
@@ -126,7 +131,7 @@ export default class App extends React.Component{
 
   toggleTheme(){
     this.theme = config.themes[(config.themes.indexOf(this.theme)+1)%(config.themes.length)]
-    Cookies.set("theme", this.theme)
+    Cookies.set("theme", this.theme, { expires: 365 })
     this.forceUpdate()
   }
 

@@ -33,6 +33,7 @@ export class PeopleCheckerScreen extends React.Component{
 
         this.showCheckedPeople = this.showCheckedPeople.bind(this)
         this.showUncheckedPeople = this.showUncheckedPeople.bind(this)
+        this.invertCheckedPeople = this.invertCheckedPeople.bind(this)
 
         this.state = {
             error: null
@@ -95,6 +96,12 @@ export class PeopleCheckerScreen extends React.Component{
         list = translate("list_of_absent")+":\n\n" + list
         this.props.app.showClipboardWithText(list)
     }
+    invertCheckedPeople(){
+        this.peopleCheckList.forEach(checkItem=>{
+            checkItem.checked = !checkItem.checked
+        })
+        this.onCheckListChanged()
+    }
     render(){
         let date = this.props.app.dayEditorState.currentDayDate
         let dateText = `${addFixedChars(date.getDate().toString(), "0", 2)}.${addFixedChars((date.getMonth()+1).toString(), "0", 2)}.${date.getFullYear()}`
@@ -103,7 +110,7 @@ export class PeopleCheckerScreen extends React.Component{
         let groupName = this.props.app.groupEditorState.currentGroupName
 
         return (
-            <ScreenScaffold 
+            <ScreenScaffold
             headerItems={
                 [
                     <div className="title">{titleDate} {translate("people_checker.title")} {groupName}</div>,
@@ -123,6 +130,12 @@ export class PeopleCheckerScreen extends React.Component{
                         <div className="label">{translate("show")}:</div>
                         <div onClick={this.showCheckedPeople} className="button small">{translate("list_of_present")}</div>
                         <div onClick={this.showUncheckedPeople} className="button small error">{translate("list_of_absent")}</div>
+                    </div>
+                    <div className="body-section">
+                        {/* TODO: localize */}
+                        {/* <div className="title"></div> */}
+                        {/* <div className="space"></div> */}
+                        <div onClick={this.invertCheckedPeople} className="button small">{translate("invert")}</div>
                     </div>
 
                     {this.state.error ? <div className="error">{this.state.error}</div> : ""}

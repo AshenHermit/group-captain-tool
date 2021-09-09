@@ -9,6 +9,7 @@
   --scrollbar-color: rgb(0 0 0 / 10%);
   --button-border-color: rgb(0 0 0 / 2%);
   --button-hover-color: rgb(0 0 0 / 4%);
+  --cards-container-bg-color: rgb(0 0 0 / 6%);
 }
 .theme.dark{
   --minor-bg-color: #151515;
@@ -16,10 +17,11 @@
   --input-bg-color: #2c2c2c;
   --text-color: #fff;
   --active-fill-color: #fff;
-  --shadow-color: rgb(0 0 0 / 31%);
+  --shadow-color: rgb(0 0 0 / 20%);
   --scrollbar-color: rgb(255 255 255 / 10%);
   --button-border-color: rgb(255 255 255 / 2%);
   --button-hover-color: rgb(255 255 255 / 4%);
+  --cards-container-bg-color: rgb(0 0 0 / 25%);
 }
 
 * {
@@ -77,11 +79,10 @@
   grid-template-rows: min-content 1fr;
 }
 .scaffold .header{
-  padding: 1em;
   background-color: var(--panel-bg-color);
-  padding: 1em;
+  padding: 0.8em;
   background-color: var(--panel-bg-color);
-  box-shadow: 0px 4px 10px var(--shadow-color);
+  box-shadow: 0px 4px 40px var(--shadow-color);
   z-index: 1;
 }
 .scaffold .header .column{
@@ -89,11 +90,11 @@
   flex-direction: column;
 }
 .scaffold .body{
-  padding: 1em;
+  /* padding: 1em; */
   overflow: auto;
 }
 .title{
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 
 .body-section{
@@ -163,13 +164,14 @@
 
 .person-item {
   display: grid;
-  margin-bottom: 8px;
-  padding: 0.5em;
+  margin: 8px;
+  margin-top: 0;
+  padding: .5em;
   background-color: var(--panel-bg-color);
   align-items: center;
   flex-direction: row;
   grid-template-columns: max-content 1fr 60px;
-  border-radius: 3px; 
+  border-radius: 3px;
 }
 .person-item.inactive{
   opacity: 0.5;
@@ -208,7 +210,6 @@
   font-weight: bold;
 }
 
-
 .document {
   display: grid;
   margin-bottom: 8px;
@@ -244,14 +245,11 @@
   margin-top: 4px;
 }
 .documents-container{
-  background-color: rgb(0 0 0 / 4%);
-  padding: 1em;
-  margin-top: 10px;
+  
 }
 .documents-container.invisible{
   display: none;
 }
-
 
 a {
   color: var(--text-color);
@@ -350,6 +348,65 @@ a {
   justify-content: center;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+/* TODO: next time, in next project with styles, 
+i will need to organize classes abstracted from purpose of the element.
+so this card-container will belong to multiple elements, like schedule and documents container.
+*/
+.cards-container{
+  background-color: var(--cards-container-bg-color);
+  padding: 1em;
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+.schedule{
+  
+}
+.schedule .lesson{
+  display: grid;
+  margin-bottom: 8px;
+  padding: 1.0em;
+  background-color: var(--panel-bg-color);
+  align-items: center;
+  flex-direction: row;
+  grid-template-columns: min-content 1fr min-content;
+  border-radius: 3px; 
+}
+.document:hover{
+  background-color: var(--panel-bg-color);
+}
+.schedule .lesson .time{
+  
+}
+.schedule .lesson .time .time-item{
+  font-size: 0.7em;
+  opacity: 0.7;
+}
+.schedule .lesson .names{
+  margin-left: 30px;
+  margin-right: 12px;
+}
+.schedule .lesson .names .title{
+  font-size: 1.0em;
+}
+.schedule .lesson .names .teacher{
+  font-size: 0.7em;
+  opacity: 0.7;
+}
+.schedule .lesson .types{
+  margin-top: 6px;
+  font-size: 0.8em;
+  width: min-content;
+}
+.schedule .lesson .types .type{
+  font-size: 0.75em;
+  opacity: 0.7;
+  width: min-content;
+}
+.schedule .lesson .rooms{
+  font-size: 0.8em;
 }
 
 /* desktop */

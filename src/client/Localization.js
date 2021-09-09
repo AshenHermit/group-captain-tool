@@ -10,7 +10,7 @@ settings, "Настройки", ""
 home.title, "Group Captain's Tool", "Group Captain's Tool"
 home.head_label, "Инструмент для главарей университетских банд.", ""
 home.section.0.title, "Дневные записи", ""
-home.section.0.label, "Запись информации относящейся к определенному дню, например посещаемость.", ""
+home.section.0.label, "Информация относящаяся к определенному дню.", ""
 check_people_button, "Отметить посещаемость", ""
 
 app.title, "Group Captain's Tool", "Group Captain's Tool"
@@ -42,10 +42,19 @@ add, "Добавить", ""
 save_error, "Не получилось сохранить данные, похоже у вас не достаточно для этого прав.", ""
 
 show_documents, "Прикрепленные документы", ""
+show_schedule, "Расписание", ""
 edit, "edit", "edit"
+no_lessons, "Пар нет", ""
 
 home.section.global_documents.title, "Глобальные документы", ""
 home.section.global_documents.lable, "ссылки на полезные страницы", ""
+
+invert, "Инвертировать выбор", ""
+pare, "пара", ""
+
+online_place_state, "Дистанционно", ""
+loading, "Загрузка", ""
+copied, "Скопировано", ""
 
 month.0.genitive,"января",""
 month.1.genitive,"февраля",""

@@ -28,6 +28,7 @@ export class CalendarComponent extends React.Component{
             }
         )
         this.setState({selectedDate: date})
+        this.props.onChange()
     }
 
     render(){

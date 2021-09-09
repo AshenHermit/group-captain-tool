@@ -20,6 +20,7 @@ export class DayEditorState{
     setCurrentDayTimestamp(groupName, dayTimestamp, callback){
         this.currentDayTimestamp = dayTimestamp
         this.currentDayDate = new Date(this.currentDayTimestamp)
+        this.dayData.documentsLibrary.isLoaded = false
         this.api.getDayData(groupName, this.getCurrentDayTimestamp(), ((dayData)=>{
             this.dayData = dayData
             if(callback!=null) callback()
