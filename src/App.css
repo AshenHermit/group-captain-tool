@@ -409,6 +409,10 @@ so this card-container will belong to multiple elements, like schedule and docum
   font-size: 0.8em;
 }
 
+.minor{
+  opacity: 0.6;
+}
+
 /* desktop */
 @media only screen and (min-width: 768px) {
   .scaffold {

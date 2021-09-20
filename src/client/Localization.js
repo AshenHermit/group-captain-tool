@@ -44,7 +44,7 @@ save_error, "Не получилось сохранить данные, похо
 show_documents, "Прикрепленные документы", ""
 show_schedule, "Расписание", ""
 edit, "edit", "edit"
-no_lessons, "Пар нет", ""
+no_lessons, "пар нет", ""
 
 home.section.global_documents.title, "Глобальные документы", ""
 home.section.global_documents.lable, "ссылки на полезные страницы", ""
@@ -53,8 +53,10 @@ invert, "Инвертировать выбор", ""
 pare, "пара", ""
 
 online_place_state, "Дистанционно", ""
-loading, "Загрузка", ""
+loading, "загрузка...", ""
+no_documents, "документов нет", ""
 copied, "Скопировано", ""
+go_to_lesson, "Перейти к лекциям", ""
 
 month.0.genitive,"января",""
 month.1.genitive,"февраля",""

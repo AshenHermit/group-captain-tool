@@ -38,14 +38,16 @@ export class ScheduleComponent extends React.Component{
     render(){
         if(!this.state.visible) return ""
 
-        var lessons = this.props.app.groupEditorState.schedule
+        var lessons = this.props.app.groupEditorState.groupData.schedule
             .getDayLessons(this.props.app.dayEditorState.currentDayTimestamp)
 
         console.log(lessons)
 
         return(
             <div className="schedule cards-container">
-                {lessons.length>0 ? this.renderLessons(lessons) : <div className="label">{translate("no_lessons")}</div>}
+                {lessons.length>0 ? 
+                    this.renderLessons(lessons) : 
+                    <div className="label">{translate("no_lessons")}</div>}
             </div>
         )
     }
@@ -73,10 +75,29 @@ class LessonComponent extends React.Component{
         }, 1000)
     }
     renderRooms(rooms){
-        if(this.state.copied) return <div className="room">{translate("copied")}</div>
-        return rooms.map(room=>{
-            if(room.toLowerCase()=="д") room=translate("online_place_state")
+        if(!rooms) return ""
+        if(rooms.length==0) return ""
+        
+        var roomEls = rooms.filter(room=>room.toLowerCase()!="д").map(room=>{
             return <div className="room">{room}</div>
+        })
+        if(roomEls.length==0) return ""
+
+        return <div onClick={this.onCopyRoomClick} className="small button rooms">
+            {this.state.copied ? <div className="room">{translate("copied")}</div>
+            :
+            roomEls}
+        </div>
+    }
+    renderLinks(links){
+        if(!links) return ""
+        return links.map(link=>{
+            return (
+            <a href={link} target="_blank">
+                <div onClick={this.onCopyRoomClick} className="minor small button rooms">
+                    <div className="room">{translate("go_to_lesson")}</div>
+                </div>
+            </a>)
         })
     }
     render(){
@@ -90,9 +111,8 @@ class LessonComponent extends React.Component{
                 <div className="names">
                     <div className="title">{this.props.lesson.name}</div>
                     <div className="teacher">{this.props.lesson.teachers}</div>
-                    <div onClick={this.onCopyRoomClick} className="small button rooms">
-                        {this.renderRooms(this.props.lesson.rooms)}
-                    </div>
+                    {this.renderRooms(this.props.lesson.rooms)}
+                    {this.renderLinks(this.props.lesson.links)}
                 </div>
                 <div className="types">
                     <div className="error">{this.props.lesson.types}</div>

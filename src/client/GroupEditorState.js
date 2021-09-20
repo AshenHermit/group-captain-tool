@@ -8,7 +8,6 @@ export class GroupEditorState{
         this.api = api
         this.currentGroupName = ""
         this.groupData = new GroupData()
-        this.schedule = new Schedule()
 
         this.onGroupDataChanged = new EventHandler(this)
     }
@@ -17,14 +16,6 @@ export class GroupEditorState{
         this.currentGroupName = groupName
         this.api.getGroup(this.currentGroupName, ((data)=>{
             this.groupData = data
-            
-            if(callback!=null) callback()
-            this.onGroupDataChanged.publish()
-        }).bind(this))
-
-        this.api.getFullSchedule(this.currentGroupName, ((data)=>{
-            console.log(data)
-            this.schedule = data
             
             if(callback!=null) callback()
             this.onGroupDataChanged.publish()

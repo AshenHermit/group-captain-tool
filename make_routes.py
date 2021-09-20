@@ -34,6 +34,8 @@ def main():
     
     Path(build_folder).rename("group-captain-tool")
 
+    print("done")
+
 
 if __name__ == '__main__':
     main()

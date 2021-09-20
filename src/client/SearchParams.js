@@ -30,7 +30,6 @@ export class SearchParams extends Exportable{
         this.current_day_timestamp = DayEditorState.createTodayTimestamp().toString()
 
         window.addEventListener('popstate', (function(event) {
-            console.log("cha ge history")
             this.replaceParams()
         }).bind(this), false);
     }

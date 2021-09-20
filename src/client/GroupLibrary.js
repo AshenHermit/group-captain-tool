@@ -1,4 +1,5 @@
 import {Exportable} from './Exportable'
+import { testScheduleData } from './RemoteApi'
 import { getCurrentWeek as getWeekNumber } from './Utils'
 
 export class Person extends Exportable{
@@ -72,12 +73,14 @@ export class CalendarData extends Exportable{
 export class GroupData extends Exportable{
     constructor(){
         super()
-        this.registerClasses({people: Person}, null, {documentsLibrary: DocumentsLibrary}, ["nextPersonUID"])
+        this.registerClasses({people: Person}, null, {documentsLibrary: DocumentsLibrary, schedule: Schedule}, ["nextPersonUID"])
         
         /**@type {Array<Person>} */
         this.people = []
         this.nextPersonUID = 0
         this.documentsLibrary = new DocumentsLibrary()
+
+        this.schedule = new Schedule()
     }
 
     addPerson(person){
@@ -127,7 +130,7 @@ export class GroupLibrary extends Exportable{
 }
 
 export class Lesson{
-    constructor(number, name, rooms, teachers, time_end, time_start, types){
+    constructor(number, name, rooms, teachers, time_end, time_start, types, links){
         this.number = number
         this.name = name
         this.rooms = rooms
@@ -135,6 +138,7 @@ export class Lesson{
         this.time_end = time_end
         this.time_start = time_start
         this.types = types
+        this.links = links
     }
 }
 
@@ -144,7 +148,7 @@ export class Schedule extends Exportable{
         super()
         this.registerClasses(null, null, null, null)
         
-        this.schedule = {}
+        this.scheduleData = testScheduleData
     }
     getDayLessons(dayTimestamp){
         var date = new Date(dayTimestamp)
@@ -155,16 +159,16 @@ export class Schedule extends Exportable{
         var lessons = []
 
         var dayKey = date.getDay()
-        if(!(dayKey in this.schedule)){
+        if(!(dayKey in this.scheduleData)){
             return lessons
         }
-        this.schedule[dayKey].lessons.forEach((lessonContainer, number)=>{
+        this.scheduleData[dayKey].lessons.forEach((lessonContainer, number)=>{
             if(lessonContainer.length==0) return
             lessonContainer.forEach(lesson=>{
                 if(lesson.weeks.indexOf(weekNumber)!=-1){
                     var lessonData = new Lesson(number+1, 
                         lesson.name, lesson.rooms, lesson.teachers, 
-                        lesson.time_end, lesson.time_start, lesson.types)
+                        lesson.time_end, lesson.time_start, lesson.types, lesson.links)
                     lessons.push(lessonData)
                 }
             })

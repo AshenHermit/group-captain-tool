@@ -135,7 +135,7 @@ export class HomepageScreen extends React.Component{
                     <div className="body-section">
                         <div className="title">{translate("settings")}</div>
                         <div className="space"></div>
-                        <div onClick={(()=>{this.props.app.toggleTheme()}).bind(this)} className="button">{translate("change_theme")}</div>
+                        <div onClick={(()=>{this.props.app.toggleTheme()}).bind(this)} className="button small">{translate("change_theme")}</div>
 
                         { this.props.app.client.loggedIn ? 
                             <div onClick={(()=>{this.props.app.logOut()}).bind(this)} className="button error">{translate("log_out")}</div>
@@ -190,26 +190,34 @@ class DocumentsContainer extends React.Component{
             <div>
                 <div className={"documents-container cards-container"}>
                     {
-                        <div className="document">{translate("loading")}</div>
+                        <div className="document minor">{translate("loading")}</div>
                     }
                     <div onClick={this.addDocument} className={"button"}>{translate("add")}</div>
                 </div>
             </div>
         )
     }
+    renderNoDocuments(){
+        return (
+                <div className="document minor">{translate("no_documents")}</div>
+        )
+    }
     render(){
         if(!this.state.visible) return ""
         if(!this.props.documentsLibrary.isLoaded) return this.renderUnloadedLibrary()
+
         return [
             <div>
                 <div className={"documents-container cards-container"}>
                     {
+                        this.props.documentsLibrary.documents.length>0 ? 
                         this.props.documentsLibrary.documents.map((documentData, i)=>{
                             return <DocumentComponent 
                                     key={documentData.title+documentData.description+i.toString()} 
                                     document={documentData} 
                                     startEditingDocument={this.startEditingDocument}/>
                         })
+                        : this.renderNoDocuments()
                     }
                     <div onClick={this.addDocument} className={"button"}>{translate("add")}</div>
                 </div>
