@@ -7,6 +7,8 @@ export function addFixedChars(text, char, numberOfChars, before=true){
     return text
 }
 
+export var dayTsStep = (1000 * 60 * 60 * 24)
+
 export function getDayDifference(date1, date2){
     const diffTime = date1.getTime() - date2.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
@@ -49,4 +51,9 @@ export function copyToClipboard(text){
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+}
+
+export function createTodayTimestamp(){
+    let date = new Date()
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()
 }

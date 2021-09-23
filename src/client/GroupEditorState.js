@@ -2,6 +2,8 @@ import { GroupData, Schedule } from "./GroupLibrary"
 import { RemoteApi } from "./RemoteApi"
 import { EventHandler } from "event-js"
 
+
+
 export class GroupEditorState{
     constructor(api){
         /**@type {RemoteApi} */

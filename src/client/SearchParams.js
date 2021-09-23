@@ -1,6 +1,7 @@
 import { config } from "./Config";
 import { DayEditorState } from "./DayEditorState";
 import { Exportable } from "./Exportable";
+import { createTodayTimestamp } from "./Utils";
 
 //took it from here: https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 export function getParameterByName(name, url = window.location.href) {
@@ -27,7 +28,7 @@ export class SearchParams extends Exportable{
         super()
         // snakecase because it's url component
         this.group_name = config.defaultGroupName
-        this.current_day_timestamp = DayEditorState.createTodayTimestamp().toString()
+        this.current_day_timestamp = createTodayTimestamp().toString()
 
         window.addEventListener('popstate', (function(event) {
             this.replaceParams()

@@ -123,7 +123,7 @@ export class PeopleCheckerScreen extends React.Component{
                     </div>
                     <div className="body-section">
                         {/* TODO: localize */}
-                        <div className="title">Аналитика</div>
+                        <div className="title">{translate("analytics")}</div>
                         <div className="space"></div>
                         <div className="label">в этот день пришли: {this.dayData.checkedPeopleUids.length} из {this.props.app.groupEditorState.groupData.people.length} человек</div>
                         <div className="space"></div>

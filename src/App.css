@@ -48,6 +48,16 @@
   background-color: var(--scrollbar-color);
 }
 
+button{
+  background-color: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background-color: inherit;
+  color: inherit;
+}
+
 .app {
   position: absolute;
   width: 100%;
@@ -411,6 +421,15 @@ so this card-container will belong to multiple elements, like schedule and docum
 
 .minor{
   opacity: 0.6;
+}
+
+.document-history-post{
+  background-color: transparent;
+  padding: 1em;
+  margin: 0;
+}
+.document-history-post .day-button{
+  text-align: left;
 }
 
 /* desktop */

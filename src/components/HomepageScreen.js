@@ -112,10 +112,13 @@ export class HomepageScreen extends React.Component{
                         <DocumentsContainer 
                             documentsLibrary={this.props.app.dayEditorState.dayData.documentsLibrary} 
                             ref={this.documentsContainerRef} 
-                            onChange={this.saveDayData}/>
+                            onChange={this.saveDayData}
+                            editable={true}/>
 
                         <div onClick={this.showSchedule} className="button">{translate("show_schedule")}</div>
                         <ScheduleComponent app={this.props.app} ref={this.scheduleRef} visible={false}/>
+
+                        <ScreenChangeButton text={translate("documents_history_button")} app={this.props.app} screen={App.ScreenEnum.DocumentsHistory} className=""/>
                     </div>
 
                     {this.state.error ? [<div className="error">{this.state.error}</div>,<br/>] : ""}
@@ -129,7 +132,8 @@ export class HomepageScreen extends React.Component{
                         <DocumentsContainer 
                             documentsLibrary={this.props.app.groupEditorState.groupData.documentsLibrary} 
                             shown={true}
-                            onChange={this.saveGroupData}/>
+                            onChange={this.saveGroupData}
+                            editable={true}/>
                     </div>
 
                     <div className="body-section">
@@ -148,10 +152,10 @@ export class HomepageScreen extends React.Component{
     }
 }
 
-class DocumentsContainer extends React.Component{
+export class DocumentsContainer extends React.Component{
     constructor(props){
         super(props)
-        /**@type {{documentsLibrary: DocumentsLibrary, onChange: Function, shown: Boolean}} */
+        /**@type {{documentsLibrary: DocumentsLibrary, onChange: Function, shown: Boolean, editable: Boolean}} */
         this.props = this.props
 
         this.startEditingDocument = this.startEditingDocument.bind(this)
@@ -192,7 +196,7 @@ class DocumentsContainer extends React.Component{
                     {
                         <div className="document minor">{translate("loading")}</div>
                     }
-                    <div onClick={this.addDocument} className={"button"}>{translate("add")}</div>
+                    {this.props.editable ? <div onClick={this.addDocument} className={"button"}>{translate("add")}</div> : ""}
                 </div>
             </div>
         )
@@ -215,18 +219,21 @@ class DocumentsContainer extends React.Component{
                             return <DocumentComponent 
                                     key={documentData.title+documentData.description+i.toString()} 
                                     document={documentData} 
-                                    startEditingDocument={this.startEditingDocument}/>
+                                    startEditingDocument={this.startEditingDocument}
+                                    editable={this.props.editable}/>
                         })
                         : this.renderNoDocuments()
                     }
-                    <div onClick={this.addDocument} className={"button"}>{translate("add")}</div>
+                    {this.props.editable ? <div onClick={this.addDocument} className={"button"}>{translate("add")}</div> : ""}
                 </div>
 
+                {this.props.editable ? 
                 <DocumentEditorComponent 
                     ref={this.documentEditorRef} 
                     onChange={this.onEdited} 
                     documentsLibrary={this.props.documentsLibrary}
-                    onError={this.props.onError}/>
+                    onError={this.props.onError}/> 
+                : "" }
             </div>,
             this.state.visible ? <br/> : ""
         ]
@@ -235,7 +242,7 @@ class DocumentsContainer extends React.Component{
 class DocumentComponent extends React.Component{
     constructor(props){
         super(props)
-        /**@type {{app: App, document: DocumentData, startEditingDocument: Function}} */
+        /**@type {{app: App, document: DocumentData, startEditingDocument: Function, editable: Boolean}} */
         this.props = this.props
 
         this.startEditing = this.startEditing.bind(this)
@@ -256,7 +263,7 @@ class DocumentComponent extends React.Component{
                         </div>
                     </a>
                     <div>
-                        <div onClick={this.startEditing} className={"button edit-button"}>{translate("edit")}</div>
+                        {this.props.editable ? <div onClick={this.startEditing} className={"button edit-button"}>{translate("edit")}</div> : "" }
                     </div>
                 </div>
             </div>

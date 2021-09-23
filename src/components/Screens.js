@@ -25,6 +25,23 @@ export class ScreenChangeButton extends React.Component{
 export class ScreenScaffold extends React.Component{
     constructor(props){
         super(props)
+        /**@type {{headerItems:any, body:any, onScrolledToBottomCallback:Function}} */
+        this.props = this.props
+        this.bodyRef = React.createRef()
+    }
+    componentDidMount(){
+        if(this.props.onScrolledToBottomCallback){
+            this.setupScrollListener()
+        }
+    }
+    setupScrollListener(){
+        this.bodyRef.current.onscroll = (function(e) {
+            if (this.bodyRef.current.scrollHeight - this.bodyRef.current.scrollTop === this.bodyRef.current.clientHeight)
+            {
+                if(this.props.onScrolledToBottomCallback) 
+                    this.props.onScrolledToBottomCallback()
+            }
+        }).bind(this);
     }
     render(){
         return (
@@ -32,7 +49,7 @@ export class ScreenScaffold extends React.Component{
                 <div className="header">
                     {this.props.headerItems}
                 </div>
-                <div className="body">
+                <div className="body" ref={this.bodyRef}>
                     {this.props.body}
                 </div>
             </div>

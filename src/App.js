@@ -20,11 +20,12 @@ import Cookies from 'js-cookie';
 import { config } from './client/Config';
 import { GroupEditorScreen } from './components/GroupEditor';
 import { HomepageScreen } from './components/HomepageScreen';
+import { DocumentsHistoryScreen } from './components/DocumentsHistory';
 
 export default class App extends React.Component{
   static ScreenEnum = Object.freeze({
-                      "Waiting": 0, "LogIn": 1, "Homepage": 2, "PeopleChecker": 3, "PeopleEditor": 4, "Calendar": 5})
-  static ScreenRoutes = ["/waiting", "/login", "/home", "/people-checker", "/people-editor", "/calendar"]
+                      "Waiting": 0, "LogIn": 1, "Homepage": 2, "PeopleChecker": 3, "PeopleEditor": 4, "Calendar": 5, "DocumentsHistory": 6})
+  static ScreenRoutes = ["/waiting", "/login", "/home", "/people-checker", "/people-editor", "/calendar", "/documents-history"]
   constructor(props){
     super(props)
     this.currentScreen = App.ScreenEnum.LogIn
@@ -108,11 +109,15 @@ export default class App extends React.Component{
     var route = "/"+config.sitename+App.ScreenRoutes[screen]
     return route
   }
-  goToScreen(screen){
+  goToScreen(screen, checkSearchParams=false){
     var route = this.getScreenRoute(screen)
     this.currentScreen = screen
     this.currentRoute = route
     this.goToRoute(route)
+    
+    if(checkSearchParams){
+      this.readSearchData()
+    }
   }
   goToRoute(routeId, pushToHistory=true){
     if(pushToHistory) {
@@ -151,6 +156,9 @@ export default class App extends React.Component{
             </Route>
             <Route path={this.getScreenRoute(App.ScreenEnum.PeopleEditor)}>
               <GroupEditorScreen app={this}/>
+            </Route>
+            <Route path={this.getScreenRoute(App.ScreenEnum.DocumentsHistory)}>
+              <DocumentsHistoryScreen app={this}/>
             </Route>
             <Route path={"/"}>
               <LogInScreen app={this}/>

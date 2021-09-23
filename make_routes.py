@@ -18,7 +18,7 @@ def main():
     file = Path(build_folder+"/index.html")
     original_text = file.read_text(encoding='utf-8')
 
-    routes = ["/waiting", "/login", "/home", "/people-checker", "/people-editor", "/calendar"]
+    routes = ["/waiting", "/login", "/home", "/people-checker", "/people-editor", "/calendar", "/documents-history"]
 
     text = format_paths(original_text, path_start="./", formatter=lambda x: x+"?v="+str(random.randint(0, 100000000)))
     

@@ -1,5 +1,5 @@
 var USEGLOBALAPI = false
-var DEBUG = window.location.host.indexOf("localhost:")!=-1
+export var DEBUG = window.location.host.indexOf("localhost:")!=-1
 
 var sitepath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 1))
 
