@@ -368,6 +368,7 @@ so this card-container will belong to multiple elements, like schedule and docum
   background-color: var(--cards-container-bg-color);
   padding: 1em;
   margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 2px;
 }
 
@@ -430,6 +431,10 @@ so this card-container will belong to multiple elements, like schedule and docum
 }
 .document-history-post .day-button{
   text-align: left;
+}
+
+.negative-top-margin{
+  margin-top: -5px;
 }
 
 /* desktop */

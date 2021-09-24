@@ -108,16 +108,17 @@ export class HomepageScreen extends React.Component{
 
                         <ScreenChangeButton text={translate("check_people_button")} app={this.props.app} screen={App.ScreenEnum.PeopleChecker} className=""/>
 
+                        <div onClick={this.showSchedule} className="button">{translate("show_schedule")}</div>
+                        <ScheduleComponent className="negative-top-margin" app={this.props.app} ref={this.scheduleRef} visible={true}/>
+
                         <div onClick={this.showDocuments} className="button">{translate("show_documents")}{documentsCountPostfix}</div>
                         <DocumentsContainer 
+                            className="negative-top-margin"
                             documentsLibrary={this.props.app.dayEditorState.dayData.documentsLibrary} 
                             ref={this.documentsContainerRef} 
+                            shown={true}
                             onChange={this.saveDayData}
                             editable={true}/>
-
-                        <div onClick={this.showSchedule} className="button">{translate("show_schedule")}</div>
-                        <ScheduleComponent app={this.props.app} ref={this.scheduleRef} visible={false}/>
-
                         <ScreenChangeButton text={translate("documents_history_button")} app={this.props.app} screen={App.ScreenEnum.DocumentsHistory} className=""/>
                     </div>
 
@@ -209,10 +210,11 @@ export class DocumentsContainer extends React.Component{
     render(){
         if(!this.state.visible) return ""
         if(!this.props.documentsLibrary.isLoaded) return this.renderUnloadedLibrary()
+        var className = this.props.className ? this.props.className : ""
 
         return [
             <div>
-                <div className={"documents-container cards-container"}>
+                <div className={"documents-container cards-container " + className}>
                     {
                         this.props.documentsLibrary.documents.length>0 ? 
                         this.props.documentsLibrary.documents.map((documentData, i)=>{

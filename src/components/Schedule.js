@@ -42,9 +42,10 @@ export class ScheduleComponent extends React.Component{
             .getDayLessons(this.props.app.dayEditorState.currentDayTimestamp)
 
         console.log(lessons)
+        var className = this.props.className ? this.props.className : ""
 
         return(
-            <div className="schedule cards-container">
+            <div className={"schedule cards-container "+className}>
                 {lessons.length>0 ? 
                     this.renderLessons(lessons) : 
                     <div className="label">{translate("no_lessons")}</div>}

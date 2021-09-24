@@ -88,7 +88,9 @@ export class RemoteApi{
     }
     makeGetDataRequest(apiRequestUrl, exportableClass, defaultValue, callback){
         try{
-            fetch(config.localApiUrl+apiRequestUrl).then(req=>req.json()).then(data=>{
+            fetch(config.localApiUrl+apiRequestUrl).then(req=>req.text()).then(json_text=>{
+                json_text = json_text.replaceAll("\n", "\\n")
+                var data = JSON.parse(json_text)
                 if("error" in data) throw data
                 var exportable = new exportableClass()
                 exportable.importData(data)
