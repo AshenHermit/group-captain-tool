@@ -30,4 +30,30 @@ export class GroupEditorState{
             if(callback) callback(success)
         })
     }
+
+    applyNewSchedule(newSchedule){
+        var oldData = this.groupData.schedule.scheduleData
+        var newData = newSchedule
+
+        var lessonsLinks = {}
+        Object.keys(oldData).forEach(day=>{
+            oldData[day].lessons.forEach((lessonsList, llst)=>{
+                lessonsList.forEach((lesson, l)=>{
+                    if(lesson.links) lessonsLinks[lesson.types + lesson.name] = lesson.links
+                })
+            })
+        })
+        Object.keys(newData).forEach(day=>{
+            newData[day].lessons.forEach((lessonsList, llst)=>{
+                lessonsList.forEach((lesson, l)=>{
+                    var links = lessonsLinks[lesson.types + lesson.name]
+                    if(links) lesson.links = links
+                })
+            })
+        })
+        this.groupData.schedule.scheduleData = newData
+        this.onGroupDataChanged.publish()
+
+        console.log("schedule data updated, but not saved. save it by yourself")
+    }
 }

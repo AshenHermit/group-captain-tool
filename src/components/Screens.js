@@ -22,7 +22,18 @@ export class ScreenChangeButton extends React.Component{
     }
 }
 
-export class ScreenScaffold extends React.Component{
+export class Screen extends React.Component{
+    constructor(props){
+        super(props)
+        /**@type {{app:App}} */
+        this.props = this.props
+    }
+    screenDidShow(){
+        
+    }
+}
+
+export class ScreenScaffold extends Screen{
     constructor(props){
         super(props)
         /**@type {{headerItems:any, body:any, onScrolledToBottomCallback:Function}} */

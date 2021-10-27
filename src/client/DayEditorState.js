@@ -44,6 +44,9 @@ export class DaysHistory{
 
         this.minDayTimestamp = Math.min(this.minDayTimestamp, dayTimestamp)
     }
+    setScanTimestampOffset(dayTimestamp){
+        this.minDayTimestamp = dayTimestamp
+    }
     getSortedDays(){
         return Object.values(this.dayTimestamps).sort().reverse().map(ts=>this.days[ts])
     }
@@ -59,7 +62,6 @@ export class DaysHistory{
     }
     loadDayData(timestamp){
         this.api.getDayData(this.groupName, timestamp, ((dayData)=>{
-            console.log(dayData.documentsLibrary.documents)
             this.setDayData(timestamp, dayData)
 
             if(dayData.documentsLibrary.documents.length>0)
@@ -71,6 +73,7 @@ export class DaysHistory{
         //scan month
         for(var i=0; i<scanAmount; i++){
             var timestamp = startMinTS - (i+1)*dayTsStep
+            // if date not exists
             if(!(timestamp in this.days)){
                 this.loadDayData(timestamp)
             }

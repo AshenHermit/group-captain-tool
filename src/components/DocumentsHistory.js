@@ -1,7 +1,7 @@
 import {PersonItem} from './PersonItem'
 import React from "react"
 import App from '../App'
-import { ScreenScaffold } from './Screens'
+import { Screen, ScreenScaffold } from './Screens'
 import { DayData, DocumentsLibrary, Person } from '../client/GroupLibrary'
 import { addFixedChars } from '../client/Utils'
 import { localization, translate } from '../client/Localization'
@@ -10,7 +10,7 @@ import { DocumentsContainer } from './HomepageScreen'
 import { searchParams } from '../client/SearchParams'
 
 
-export class DocumentsHistoryScreen extends React.Component{
+export class DocumentsHistoryScreen extends Screen{
     constructor(props){
         super(props)
         /**@type {{app: App}} */
@@ -26,6 +26,7 @@ export class DocumentsHistoryScreen extends React.Component{
         this.docsCount = 0
     }
     componentDidMount(){
+        this.props.app.dayEditorState.daysHistory.setScanTimestampOffset(this.props.app.dayEditorState.currentDayTimestamp)
         this.props.app.dayEditorState.daysHistory.onHistoryChanged.subscribe(this.onHistoryChanged)
         this.checkInterval = setInterval(()=>{
             if(this.daysWithDocsCount<6){
@@ -94,7 +95,7 @@ export class DocumentsHistoryScreen extends React.Component{
                         this.days.map(dayPost=>{
                             dayPost.dayData.documentsLibrary.isLoaded = true
                             if(dayPost.dayData.documentsLibrary.documents.length==0) return ""
-                            return <DaylyDocumentsBlock app={this.props.app} dayPost={dayPost}/>
+                            return <DayDocumentsBlock app={this.props.app} dayPost={dayPost}/>
                         })
                     }
                 </div>
@@ -103,7 +104,7 @@ export class DocumentsHistoryScreen extends React.Component{
     }
 }
 
-export class DaylyDocumentsBlock extends React.Component{
+export class DayDocumentsBlock extends React.Component{
     constructor(props){
         super(props)
         /**@type {{app: App, dayPost:DayPost, onChange:Function}} */

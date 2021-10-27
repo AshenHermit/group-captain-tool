@@ -138,6 +138,7 @@ export class Lesson{
         this.time_end = time_end
         this.time_start = time_start
         this.types = types
+        this.replacement_type = ""
         this.links = links
     }
 }

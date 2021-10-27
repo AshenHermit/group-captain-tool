@@ -41,7 +41,6 @@ export class ScheduleComponent extends React.Component{
         var lessons = this.props.app.groupEditorState.groupData.schedule
             .getDayLessons(this.props.app.dayEditorState.currentDayTimestamp)
 
-        console.log(lessons)
         var className = this.props.className ? this.props.className : ""
 
         return(
@@ -90,18 +89,19 @@ class LessonComponent extends React.Component{
             roomEls}
         </div>
     }
-    renderLinks(links){
+    renderLinks(links, lesson_type){
         if(!links) return ""
         return links.map(link=>{
             return (
             <a href={link} target="_blank">
                 <div onClick={this.onCopyRoomClick} className="minor small button rooms">
-                    <div className="room">{translate("go_to_lesson")}</div>
+                    <div className="room">{translate("go_to_lesson_"+lesson_type)}</div>
                 </div>
             </a>)
         })
     }
     render(){
+        var lesson_type = this.props.lesson.replacement_type || this.props.lesson.types
         return (
             <div className="lesson">
                 <div className="time">
@@ -113,7 +113,7 @@ class LessonComponent extends React.Component{
                     <div className="title">{this.props.lesson.name}</div>
                     <div className="teacher">{this.props.lesson.teachers}</div>
                     {this.renderRooms(this.props.lesson.rooms)}
-                    {this.renderLinks(this.props.lesson.links)}
+                    {this.renderLinks(this.props.lesson.links, lesson_type)}
                 </div>
                 <div className="types">
                     <div className="error">{this.props.lesson.types}</div>

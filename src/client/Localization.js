@@ -63,6 +63,8 @@ loading, "загрузка...", ""
 no_documents, "документов нет", ""
 copied, "Скопировано", ""
 go_to_lesson, "Перейти к лекциям", ""
+go_to_lesson_лк, "Перейти к лекциям", ""
+go_to_lesson_пр, "Перейти к семинарам", ""
 
 month.0.genitive,"января",""
 month.1.genitive,"февраля",""
@@ -99,7 +101,6 @@ class Localization{
                 translationTable[message][locale] = translationMatrix[i][1+localeIndex]
             })
         }
-        console.log(translationTable)
         return translationTable
     }
     loadTranslationFromCSV(csvText){
