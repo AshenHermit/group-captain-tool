@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /group-captain-tool
+
+__pycache__/
+upload.bat

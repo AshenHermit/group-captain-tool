@@ -13,7 +13,7 @@ def format_paths(text, path_start="./", formatter=None):
             offset += (len(path) - len(pat.groups()[1])) + (len(path_start)-2)
     return text
 
-def main():
+def make_routes(output_folder):
     build_folder = "./build"
     file = Path(build_folder+"/index.html")
     original_text = file.read_text(encoding='utf-8')
@@ -32,10 +32,14 @@ def main():
         file = Path(filepath)
         file.write_text(text)
     
-    Path(build_folder).rename("group-captain-tool")
 
-    print("done")
+    Path(build_folder).rename(output_folder)
 
+    print("routes are made")
+
+
+def main():
+    make_routes("group-captain-tool")
 
 if __name__ == '__main__':
     main()
